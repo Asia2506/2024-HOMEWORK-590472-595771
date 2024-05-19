@@ -7,18 +7,28 @@ import org.junit.Test;
 
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
-import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 
 public class ComandoVaiTest {
-
+	
 	private Partita p;
-	private ComandoVai cv;
+	private Comando cv;
+	
 	
 	@Before
 	public void setUp() {
-		p = new Partita(new Labirinto(), new IOConsole());
-		cv = new ComandoVai("sud");
-		cv.esegui(p);
+		LabirintoBuilder l = new LabirintoBuilder()
+				.addStanzaIniziale("ingresso")
+				.addStanzaVincente("terrazza")
+				.addStanza("salotto")
+				.addStanza("cucina")
+				.addAdiacenza("ingresso","salotto","nord")
+				.addAdiacenza("salotto","ingresso", "sud")
+				.addAdiacenza("salotto", "cucina","est")
+				.addAdiacenza("cucina","salotto", "ovest")
+				.addAdiacenza("cucina", "terrazza","nord")
+				.addAdiacenza("terrazza","cucina", "sud");
+		p = new Partita(l, new IOConsole());
 	}
 	
 
@@ -27,26 +37,23 @@ public class ComandoVaiTest {
 	public void testEsegui_Direzione_Null() {
 		ComandoVai c = new ComandoVai(null);
 		c.esegui(p);
-		assertEquals(p.getStanzaCorrente().getNome(), "Aula N10");
+		assertEquals(p.getStanzaCorrente().getNome(),"ingresso");
 	}
-	
 	
 	//ci stiamo muovendo verso una stanza esistente
 	@Test
 	public void testEsegui_Direzione_Esistente() {
-		ComandoVai c = new ComandoVai("est");
+		ComandoVai c = new ComandoVai("nord");
 		c.esegui(p);
-		assertEquals(p.getStanzaCorrente().getNome(), "Aula N11");
+		assertEquals(p.getStanzaCorrente().getNome(), "salotto");
 	}
-	
 	
 	//ci stiamo muovendo verso una direzione inesistente
 	@Test
 	public void testEsegui_ProssimaStanza_Inesistente() {
-		ComandoVai c=new ComandoVai("sud");
+		ComandoVai c = new ComandoVai("sud");
 		c.esegui(p);
-		assertEquals(p.getStanzaCorrente().getNome(),"Aula N10");
+		assertEquals(p.getStanzaCorrente().getNome(), "ingresso");
 	}
-
 
 }

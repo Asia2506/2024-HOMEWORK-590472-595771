@@ -2,11 +2,11 @@ package it.uniroma3.diadia.ambienti;
 
 
 /**«stanza buia»: 
- * se nella stanza non è
- * presente un attrezzo con un nome particolare
- * (ad esempio "lanterna") il metodo
- * getDescrizione() di una stanza buia ritorna la
- * stringa "qui c'è un buio pesto"
+ * se nella stanza non è presente un attrezzo con un nome particolare
+ * (ad esempio "lanterna") il metodo getDescrizione() di una stanza buia 
+ * ritorna la stringa "qui c'è un buio pesto"
+ * 
+ * @author Asia, Isabella
  */
 
 

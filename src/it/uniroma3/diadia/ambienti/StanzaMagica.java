@@ -16,6 +16,9 @@ import it.uniroma3.diadia.attrezzi.Attrezzo;
  *
  *	– quando la stanza non si comporta magicamente, il
  *	comportamento rimane quello usuale
+ *
+ *@see Attrezzo
+ *@autor Asia, Isabella
  */
 
 public class StanzaMagica extends Stanza {
@@ -72,6 +75,12 @@ public class StanzaMagica extends Stanza {
 		if (this.contatoreAttrezziPosati>this.sogliaMagica)
 			attrezzo = this.modificaAttrezzo(attrezzo);
 		return super.addAttrezzo(attrezzo);
+	}
+	
+	
+	@Override
+	public boolean isMagica() {
+		return true;
 	}
 	
 }

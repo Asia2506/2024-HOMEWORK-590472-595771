@@ -1,14 +1,15 @@
 package it.uniroma3.diadia;
 import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.ambienti.Stanza;
-import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.giocatore.Giocatore;
 
 /**
  * Questa classe modella una partita del gioco
  *
- * @author  docente di POO
+ * @author  docente di POO, Asia, Isabella
  * @see Stanza
+ * @see Labirinto
+ * @see Giocatore
  * @version base
  */
 
@@ -73,9 +74,15 @@ public class Partita {
 		return this.stanzaCorrente;
 	}
 	
+	
 	public Labirinto getLabirinto() {
 		return this.labirinto;
 	}
+	
+	public void setLabirinto(Labirinto labirinto) {
+		this.labirinto=labirinto;
+	}
+	
 	
 	public Giocatore getGiocatore() {
 		return this.giocatore;

@@ -39,7 +39,17 @@ public class StanzaTest {
 		public void testAddAttrezzoStanzaContenenteDegliAttrezzi() {
 			assertTrue(creaStanza(5).addAttrezzo(new Attrezzo("Lancia",10)));
 		}
-
+		
+		/*
+		@Test
+		public void testAddAttrezzoGiaPresenteNelLabirinto() {
+			Labirinto l=new Labirinto();
+			Stanza s=l.getStanzaIniziale();
+			Attrezzo a=new Attrezzo("Lancia",10);
+			s.addAttrezzo(a);
+			assertFalse(s.getStanzaAdiacente("nord").addAttrezzo(a));
+		}
+		*/
 		
 		
 		@Test 
@@ -53,7 +63,7 @@ public class StanzaTest {
 		}
 		
 		@Test
-		public void testHaAttrezzoElementoNonPresenteNellaStanza() {
+		public void testHasAttrezzoElementoNonPresenteNellaStanza() {
 			assertFalse(creaStanza(10).hasAttrezzo("NonPresente"));
 		}
 		
@@ -78,12 +88,17 @@ public class StanzaTest {
 		
 		@Test
 		public void testRemoveAttrezzoEsistente() {
+			/*Attrezzo a=new Attrezzo("AttrezzoPresente",1);
+			Stanza s=creaStanza(7);
+			s.addAttrezzo(a);*/
 			assertTrue(creaStanza(7).removeAttrezzo(new Attrezzo("Attrezzo0",0)));
 		}
+		
 		@Test
 		public void testRemoveAttrezzoNonContenuto() {
 			assertFalse(creaStanza(3).removeAttrezzo(new Attrezzo("NonContenuto",7)));
 		}
+		
 		@Test
 		public void testRemoveAttrezzoStanzaVuota() {
 			assertFalse(creaStanza(0).removeAttrezzo(new Attrezzo("Luce",1)));

@@ -4,20 +4,21 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class LabirintoTest {
 
+public class LabirintoTest {
+	
 	private Labirinto creaLabirinto() {
-		Labirinto labirinto = new Labirinto();
+		LabirintoBuilder l = new LabirintoBuilder()
+				.addStanzaIniziale("inizio")
+				.addStanzaVincente("fine");
+		Labirinto labirinto = l.getLabirinto();
 	
 		return labirinto;
 	}
-	
-	
 	@Test
 	public void testGetStanzaInizialeFunziona() {
 		assertNotNull(creaLabirinto().getStanzaIniziale());
 	}
-	
 	@Test
 	public void testGetStanzaInizialeIncorretta() {
 		assertNotEquals("Incorretta",creaLabirinto().getStanzaIniziale().getNome());
@@ -27,18 +28,15 @@ public class LabirintoTest {
 	public void testGetStanzaVincenteFunziona() {
 		assertNotNull(creaLabirinto().getStanzaVincente());
 	}
-	
 	@Test
 	public void testGetStanzaVincenteIncorretta() {
 		assertNotEquals("Incorretta",creaLabirinto().getStanzaVincente().getNome());
 	}
-	
-	
 	//nel labirinto stanza iniziale e finale sono diverse
 	@Test
 	public void testGetStanza() { 
 		assertNotEquals(creaLabirinto().getStanzaIniziale(),creaLabirinto().getStanzaVincente());
 	}
-
+	
 
 }

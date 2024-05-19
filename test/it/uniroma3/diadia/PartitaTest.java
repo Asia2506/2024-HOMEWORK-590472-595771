@@ -4,13 +4,15 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.Stanza;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 
 public class PartitaTest {
 	
 	private Partita creaPartita(String stanzaCorrente,int cfu,boolean finita) {
-		Partita partita=new Partita(new Labirinto(),new IOConsole());
+		LabirintoBuilder l = new LabirintoBuilder()
+				.addStanzaIniziale("StanzaIniziale")
+				.addStanzaVincente("StanzaVincente");
+		Partita partita=new Partita(l,new IOConsole());
 		
 		if(finita)
 			partita.setFinita();
@@ -42,22 +44,22 @@ public class PartitaTest {
 	
 	
 	@Test
-	public void tastIsFinita_InizioPartita() {
+	public void testIsFinita_InizioPartita() {
 		assertFalse(creaPartita("InizioPartita",20,false).isFinita());
 	}
 	
 	@Test
-	public void tastIsFinita_VerificataPerCFUterminati() {
+	public void testIsFinita_VerificataPerCFUterminati() {
 		assertTrue(creaPartita("PartitaFinita_CFUfiniti",0,false).isFinita());
 	}
 	
 	@Test
-	public void tastIsFinita_VerificataPerVittoria() {
+	public void testIsFinita_VerificataPerVittoria() {
 		assertTrue(creaPartita("StanzaVincente",16,false).isFinita());
 	}
 	
 	@Test
-	public void tastIsFinita_VerificataPerPartitaImpostateAfinita() {
+	public void testIsFinita_VerificataPerPartitaImpostateAfinita() {
 		assertTrue(creaPartita("PartitaSettataFinita",16,true).isFinita());
 	}
 	

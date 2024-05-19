@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
-import it.uniroma3.diadia.ambienti.Labirinto;
+import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.giocatore.Borsa;
 
 public class ComandoPrendiTest {
@@ -18,7 +18,11 @@ public class ComandoPrendiTest {
 	
 	@Before
 	public void setUp() {
-		p = new Partita(new Labirinto(), new IOConsole());
+		LabirintoBuilder lb = new LabirintoBuilder()
+				.addStanzaIniziale("Stanza Iniziale")
+				.addAttrezzo("attrezzo 1", 0)
+				.addStanzaVincente("Stanza Vincente");
+		p = new Partita(lb, new IOConsole());
 		cp = new ComandoPrendi();
 		b = p.getGiocatore().getBorsa();
 	}
@@ -34,9 +38,9 @@ public class ComandoPrendiTest {
 	//prendendiamo l'osso dall'atrio
 	@Test
 	public void testEsegui_NomeAttrezzoValido() {
-		cp.setParametro("osso");
+		cp.setParametro("attrezzo 1");
 		cp.esegui(p);
-		assertTrue(p.getGiocatore().getBorsa().hasAttrezzo("osso"));
+		assertTrue(p.getGiocatore().getBorsa().hasAttrezzo("attrezzo 1"));
 	}
 
 	//vogliamo prendere un oggetto che non è presente nell'atrio
