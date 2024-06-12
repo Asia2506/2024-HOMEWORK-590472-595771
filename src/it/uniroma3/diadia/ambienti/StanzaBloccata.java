@@ -1,27 +1,24 @@
 package it.uniroma3.diadia.ambienti;
 
-/**«stanza bloccata»: 
- * una delle direzioni della stanza non può essere seguita a meno che
- * nella stanza non sia presente un oggetto con un nome particolare (ad esempio "passepartout")
- * 
- * @author Asia, Isabella
- */
-
 public class StanzaBloccata extends Stanza {
 	
-	//variabili di istanza
-	private String nomeDirezioneBloccata;
-	private String nomeAttrezzoSbloccante;
+	private Direzione direzioneBloccata; //nome direzione bloccata
+	private String nomeAttrezzoSbloccante; //nome dell'attrezzo che consente di sbloccare la direzione bloccata
 
-	//costruttore
 	public StanzaBloccata(String nome, String nomeDirezioneBloccata,String nomeAttrezzoSbloccante) {
 		super(nome);
-		this.nomeDirezioneBloccata = nomeDirezioneBloccata;
+		this.direzioneBloccata = Direzione.valueOf(nomeDirezioneBloccata.toUpperCase());
 		this.nomeAttrezzoSbloccante = nomeAttrezzoSbloccante;
 	}
 	
-	
-	
+	public Direzione getDirezioneBloccata() {
+		return this.direzioneBloccata;
+	}
+	public String getNomeAttrezzoSbloccante() {
+		return this.nomeAttrezzoSbloccante;
+	}
+
+
 	 /**
      * Se nella stanza non è presente l'attrezzo sbloccante, il metodo ritorna un riferimento alla 
 	 * stanza corrente altrimenti ritorna la stanza corrispondente all'uscita specificata
@@ -33,41 +30,27 @@ public class StanzaBloccata extends Stanza {
 			return null;
 		
 		
-		if(dir.equals(nomeDirezioneBloccata) && !hasAttrezzo(this.nomeAttrezzoSbloccante)) {
-			return this;
-		}
+		if(dir.equals(direzioneBloccata.name()) && !hasAttrezzo(this.nomeAttrezzoSbloccante))
+			return this;	
 		
 		return super.getStanzaAdiacente(dir);
 	}
 	
 	
 	/**
-     * Se nella stanza non è presente l'attrezzo sbloccante, il metodo ritorna un riferimento alla 
-	 * stanza corrente altrimenti ritorna la stanza corrispondente all'uscita specificata
-     * @param direzione
-     */
+	* @return Restituisce una descrizione opportuna: il nome dell'attrezzo 
+	* sbloccante  e il nome della direzione bloccata 
+	*/
 	@Override
 	public String getDescrizione() {
-		String s=super.getDescrizione();
 		
-		if(!hasAttrezzo(nomeAttrezzoSbloccante))
-			s=s+"\nAttenzione: Direzione '"+this.nomeDirezioneBloccata+"' BLOCCATA.\n"
-					+ "\tAttrezzo Sbloccante-> "+this.nomeAttrezzoSbloccante;
+		String s = super.toString();
 		
+		if(!hasAttrezzo(this.nomeAttrezzoSbloccante)) 
+			s = s + "\nAttenzione: Direzione '" + this.direzioneBloccata + "' BLOCCATA."
+					+ "\n"+ "\tAttrezzo sbloccante -> " + this.nomeAttrezzoSbloccante;
+
 		return s;
 	}
-	
-	
-	
-	//metodi getters and setters
-	public String getNomeDirezioneBloccata() {
-		return nomeDirezioneBloccata;
-	}
-	
-	public String getNomeAttrezzoSbloccante() {
-		return nomeAttrezzoSbloccante;
-	}
-	
-	
 	
 }

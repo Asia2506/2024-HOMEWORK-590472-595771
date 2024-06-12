@@ -43,15 +43,12 @@ public class ComandoPosa implements Comando {
 			}else
 				partita.getIO().mostraMessaggio("Attrezzo non presente nella borsa !");
 		}
-		//inputOutput.mostraMessaggio(partita.getStanzaCorrente().getDescrizione());
-	
-		
 	}
 
+	
 	@Override
 	public void setParametro(String parametro) {
 		this.nomeAttrezzo=parametro;
-		
 	}
 
 	@Override

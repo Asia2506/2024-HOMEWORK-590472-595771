@@ -35,6 +35,8 @@ public class FabbricaDiComandiFisarmonica implements FabbricaDiComandi{
 		else comando = new ComandoNonValido();
 		
 		comando.setParametro(parametro);
+		
+		scannerDiParole.close();
 		return comando;
 	}
 

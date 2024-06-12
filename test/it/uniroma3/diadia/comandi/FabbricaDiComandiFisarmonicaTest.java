@@ -21,16 +21,16 @@ public class FabbricaDiComandiFisarmonicaTest {
 	
 	@Test
 	public void testCostruisciComandoInesistente() {
-		assertEquals(comando.costruisciComando("ComandoInesistente").getNome(),"Comando non valido");
+		assertEquals(comando.costruisciComando("ComandoInesistente").getNome(),new ComandoNonValido().getNome());
 	}
 	
 	@Test
 	public void testCostruisciComandoFine() {
-		assertEquals(comando.costruisciComando("fine").getNome(),"fine");
+		assertEquals(comando.costruisciComando("fine").getNome(),new ComandoFine().getNome());
 	}
 	
 	@Test
 	public void testCostruisciComandoGuarda() {
-		assertEquals(comando.costruisciComando("guarda").getNome(),"guarda");
+		assertEquals(comando.costruisciComando("guarda").getNome(),new ComandoGuarda().getNome());
 	}
 }

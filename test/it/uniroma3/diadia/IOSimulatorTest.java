@@ -2,6 +2,7 @@ package it.uniroma3.diadia;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
 import it.uniroma3.diadia.ambienti.StanzaMagica;
 
 public class IOSimulatorTest {
@@ -26,14 +26,13 @@ public class IOSimulatorTest {
 
 
 	@Test
-	public void testBilocale() {
-		Labirinto bilocale = new LabirintoBuilder()
+	public void testBilocale() throws FileNotFoundException, FormatoFileNonValidoException {
+		Labirinto bilocale = Labirinto.newBuilder(null)
 				.addStanzaIniziale("salotto")
 				.addStanzaVincente("camera")
 				.addAttrezzo("letto",10) // dove? fa riferimento all’ultima stanza aggiunta: la “camera”
 				.addAdiacenza("salotto", "camera", "nord") // camera si trova a nord di salotto
-				.addAdiacenza("camera","salotto","sud")
-				.getLabirinto(); // restituisce il Labirinto così specificato
+				.addAdiacenza("camera","salotto","sud").getLabirinto(); // restituisce il Labirinto così specificato
 
 		//DiaDia gioco=new DiaDia(bilocale,new IOConsole());
 
@@ -67,15 +66,14 @@ public class IOSimulatorTest {
 
 
 	@Test 
-	public void testTrilocale() {
-		Labirinto trilocale = new LabirintoBuilder()
+	public void testTrilocale() throws FileNotFoundException, FormatoFileNonValidoException {
+		Labirinto trilocale =Labirinto.newBuilder(null)
 				.addStanzaIniziale("salotto")
 				.addStanza("cucina")
 				.addAttrezzo("pentola",1) // dove? fa riferimento all’ultima stanza aggiunta: la “cucina”
 				.addStanzaVincente("camera")
 				.addAdiacenza("salotto", "cucina", "nord")
-				.addAdiacenza("cucina", "camera","est")
-				.getLabirinto(); // restituisce il Labirinto così specificato
+				.addAdiacenza("cucina", "camera","est").getLabirinto(); // restituisce il Labirinto così specificato
 
 		//DiaDia gioco=new DiaDia(bilocale,new IOConsole());
 
@@ -113,18 +111,18 @@ public class IOSimulatorTest {
 	}
 
 	@Test
-	public void testAggiuntaAttrezzoAStanze_MoltepliciAttrezziStessaStanza() {
+	public void testAggiuntaAttrezzoAStanze_MoltepliciAttrezziStessaStanza() throws FileNotFoundException, FormatoFileNonValidoException {
 		String nomeAttrezzo1 = "attrezzo1";
 		String nomeAttrezzo2 = "attrezzo2";
 		int peso1 = 1;
 		int peso2 = 2;
 		String nomeStanza1 = "Stanza 1";
-		LabirintoBuilder l1 = new LabirintoBuilder()
+		Labirinto l1 =Labirinto.newBuilder(null)
 				.addStanzaIniziale(nomeStanza1)
 				.addAttrezzo(nomeAttrezzo1, peso1)
-				.addAttrezzo(nomeAttrezzo2, peso2);
+				.addAttrezzo(nomeAttrezzo2, peso2).getLabirinto();
 
-		Partita p=new Partita(l1.getLabirinto(),io);
+		Partita p=new Partita(l1,io);
 
 		input.add("guarda");
 		input.add("prendi attrezzo1");
@@ -145,7 +143,7 @@ public class IOSimulatorTest {
 	}
 
 	@Test
-	public void testLabirintoConStanzaMagica() {
+	public void testLabirintoConStanzaMagica() throws FileNotFoundException, FormatoFileNonValidoException {
 		String nomeAttrezzo1 = "pianoforte";
 		String nomeAttrezzo2 = "flauto";
 		int peso1 = 1;
@@ -153,7 +151,7 @@ public class IOSimulatorTest {
 		int sogliaMagica = 1;
 		String nomeStanzaMagica = "Stanza Magica";
 
-		LabirintoBuilder l2 = new LabirintoBuilder()
+		Labirinto.LabirintoBuilder l2 =Labirinto.newBuilder(null)
 				.addStanzaIniziale("entrata")
 				.addAttrezzo(nomeAttrezzo1, peso1)
 				.addAttrezzo(nomeAttrezzo2, peso2)
@@ -163,7 +161,7 @@ public class IOSimulatorTest {
 		StanzaMagica stanzaMagica = (StanzaMagica)l2.getListaStanze().get(nomeStanzaMagica);
 
 		assertTrue(stanzaMagica.isMagica());
-		Partita p=new Partita(l2,io);
+		Partita p=new Partita(l2.getLabirinto(),io);
 
 		input.add("guarda");
 		input.add("prendi pianoforte");
@@ -188,8 +186,8 @@ public class IOSimulatorTest {
 		assertEquals(p.getStanzaCorrente().getAttrezzo("otualf").getPeso(),4); //peso raddoppiato
 	}
 	@Test
-	public void testLabirintoConStanzaBloccata_ConPassepartout() {
-		LabirintoBuilder l3 = new LabirintoBuilder()
+	public void testLabirintoConStanzaBloccata_ConPassepartout() throws FormatoFileNonValidoException, FileNotFoundException {
+		Labirinto l3 = Labirinto.newBuilder(null)
 				.addStanzaIniziale("inizio")
 				.addStanzaBloccata("stanza bloccata", "nord", "chiave")
 				.addAttrezzo("chiave", 1)
@@ -197,7 +195,7 @@ public class IOSimulatorTest {
 				.addAdiacenza("stanza bloccata", "inizio", "sud")
 				.addStanzaVincente("fine")
 				.addAdiacenza("stanza bloccata", "fine", "nord")
-				.addAdiacenza("fine", "stanza bloccata", "sud");
+				.addAdiacenza("fine", "stanza bloccata", "sud").getLabirinto();
 
 		Partita p=new Partita(l3,io);
 
@@ -220,15 +218,15 @@ public class IOSimulatorTest {
 	}
 
 	@Test
-	public void testLabirintoConStanzaBloccata_SenzaPassepartout() {
-		LabirintoBuilder l4 = new LabirintoBuilder()
+	public void testLabirintoConStanzaBloccata_SenzaPassepartout() throws FileNotFoundException, FormatoFileNonValidoException {
+		Labirinto l4 = Labirinto.newBuilder(null)
 				.addStanzaIniziale("inizio")
 				.addStanzaBloccata("stanza bloccata", "nord", "chiave")
 				.addAdiacenza("inizio", "stanza bloccata", "nord")
 				.addAdiacenza("stanza bloccata","inizio", "sud")
 				.addStanzaVincente("fine")
 				.addAdiacenza("stanza bloccata", "fine", "nord")
-				.addAdiacenza("fine", "stanza bloccata", "sud");
+				.addAdiacenza("fine", "stanza bloccata", "sud").getLabirinto();
 
 		Partita p=new Partita(l4,io);
 
@@ -253,9 +251,9 @@ public class IOSimulatorTest {
 
 	}
 	@Test
-	public void testLabirintoCompletoConTutteLeStanze() {
+	public void testLabirintoCompletoConTutteLeStanze() throws FileNotFoundException, FormatoFileNonValidoException {
 
-		Labirinto labirintoCompleto = new LabirintoBuilder()
+		Labirinto labirintoCompleto = Labirinto.newBuilder(null)
 				.addStanzaIniziale("inizio")
 				.addStanzaVincente("fine")
 				.addStanza("corridoio")
@@ -276,8 +274,7 @@ public class IOSimulatorTest {
 				.addAdiacenza("corridoio", "stanza magica", "est")
 				.addAdiacenza("stanza magica", "corridoio", "ovest")
 				.addAdiacenza("corridoio", "stanza buia", "ovest")
-				.addAdiacenza("stanza buia", "corridoio", "est")
-				.getLabirinto();
+				.addAdiacenza("stanza buia", "corridoio", "est").getLabirinto();
 
 		Partita p=new Partita(labirintoCompleto ,io);
 
@@ -311,4 +308,3 @@ public class IOSimulatorTest {
 
 
 }
-

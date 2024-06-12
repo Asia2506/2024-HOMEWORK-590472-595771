@@ -2,12 +2,15 @@ package it.uniroma3.diadia.comandi;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import it.uniroma3.diadia.FormatoFileNonValidoException;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
+import it.uniroma3.diadia.ambienti.Labirinto;
 import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.giocatore.Borsa;
 
@@ -20,18 +23,18 @@ public class ComandoPosaTest {
 	private int numeroAttrezziBorsa;
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws FileNotFoundException, FormatoFileNonValidoException {
 		String nomeAttrezzo1 = "attrezzo1";
 		String nomeAttrezzo2 = "attrezzo2";
 		int peso1 = 1;
 		int peso2 = 2;
 		String nomeStanza1 = "Stanza 1";
 		String nomeStanza2 = "Stanza 2";
-		LabirintoBuilder l = new LabirintoBuilder()
+		Labirinto l = Labirinto.newBuilder(null)
 		.addStanzaIniziale(nomeStanza1)
 		.addStanzaVincente(nomeStanza2)
 		.addAttrezzo(nomeAttrezzo1, peso1)
-		.addAttrezzo(nomeAttrezzo2, peso2);
+		.addAttrezzo(nomeAttrezzo2, peso2).getLabirinto();
 		p=new Partita(l,new IOConsole());
 		b=p.getGiocatore().getBorsa();
 		b.addAttrezzo(new Attrezzo("AttrezzoPresente",5));

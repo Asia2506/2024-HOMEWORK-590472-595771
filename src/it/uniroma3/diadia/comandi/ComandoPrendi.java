@@ -55,13 +55,11 @@ public class ComandoPrendi implements Comando {
 		
 	}
 
-
-
+	
 	@Override
 	public String getParametro() {
 		return this.nomeAttrezzo;
 	}
-
 
 
 	@Override

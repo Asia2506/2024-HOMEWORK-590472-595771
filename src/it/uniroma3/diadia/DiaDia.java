@@ -2,12 +2,10 @@
 package it.uniroma3.diadia;
 
 import it.uniroma3.diadia.ambienti.Labirinto;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
-import it.uniroma3.diadia.ambienti.Stanza;
-import it.uniroma3.diadia.attrezzi.Attrezzo;
 import it.uniroma3.diadia.comandi.Comando;
-import it.uniroma3.diadia.comandi.FabbricaDiComandiFisarmonica;
+import it.uniroma3.diadia.comandi.FabbricaDiComandiRiflessiva;
 
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
@@ -46,8 +44,8 @@ public class DiaDia {
 		this.partita = new Partita(labirinto,io);
 	}
 	
-	public DiaDia(IO io) {
-		this(new Labirinto(),io);
+	public DiaDia(IO io,String nomeFile) throws FileNotFoundException, FormatoFileNonValidoException {
+		this(Labirinto.newBuilder(nomeFile).getLabirinto(),io);
 	}
 
 	public void gioca() {
@@ -68,7 +66,7 @@ public class DiaDia {
 	 */
 	private boolean processaIstruzione(String istruzione) {
 		Comando comandoDaEseguire;
-		FabbricaDiComandiFisarmonica factory = new FabbricaDiComandiFisarmonica();
+		FabbricaDiComandiRiflessiva factory=new FabbricaDiComandiRiflessiva();
 		comandoDaEseguire = factory.costruisciComando(istruzione);
 		comandoDaEseguire.esegui(this.partita);
 		
@@ -81,22 +79,15 @@ public class DiaDia {
 		return this.partita.isFinita();
 	}
 	
-	/*public Partita getPartita() {
-		return partita;
-	}*/
 	
-	public static void main(String[] argc) {
-		/* N.B. unica istanza di IOConsole
-		di cui sia ammessa la creazione */
-		IO io = new IOConsole();
-		Labirinto labirinto = new LabirintoBuilder()
-		.addStanzaIniziale("LabCampusOne")
-		.addStanzaVincente("Biblioteca")
-		.addAdiacenza("LabCampusOne","Biblioteca","ovest")
-		.getLabirinto();
-		//System.out.println(labirinto.getStanzaIniziale()+" "+labirinto.getStanzaVincente()+" "+labirinto.getStanzaIniziale().toString());
-		DiaDia gioco = new DiaDia(labirinto, io);
-		gioco.gioca();
+	public static void main(String[] argc) throws FileNotFoundException, FormatoFileNonValidoException {
+
+		try(Scanner scannerDiLinee = new Scanner(System.in)){
+			IO io = new IOConsole(scannerDiLinee);
+			Labirinto labirinto = Labirinto.newBuilder("labirinto2.txt").getLabirinto();
+			DiaDia gioco = new DiaDia(labirinto, io);
+			gioco.gioca();
+		}
 	}
 
 	

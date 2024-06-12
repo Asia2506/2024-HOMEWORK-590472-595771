@@ -70,7 +70,7 @@ public class Attrezzo implements Comparable <Attrezzo>{
 	 * @return la rappresentazione stringa
 	 */
 	public String toString() {
-		return this.getNome();//+":"+this.getPeso();
+		return this.getNome();
 	}
 
 

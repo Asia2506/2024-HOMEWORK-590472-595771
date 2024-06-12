@@ -2,22 +2,24 @@ package it.uniroma3.diadia.comandi;
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+
 import org.junit.Before;
 import org.junit.Test;
 
+import it.uniroma3.diadia.FormatoFileNonValidoException;
 import it.uniroma3.diadia.IOConsole;
 import it.uniroma3.diadia.Partita;
-import it.uniroma3.diadia.ambienti.LabirintoBuilder;
+import it.uniroma3.diadia.ambienti.Labirinto;
 
 public class ComandoVaiTest {
 	
 	private Partita p;
-	private Comando cv;
 	
 	
 	@Before
-	public void setUp() {
-		LabirintoBuilder l = new LabirintoBuilder()
+	public void setUp() throws FileNotFoundException, FormatoFileNonValidoException {
+		Labirinto l = Labirinto.newBuilder(null)
 				.addStanzaIniziale("ingresso")
 				.addStanzaVincente("terrazza")
 				.addStanza("salotto")
@@ -27,7 +29,7 @@ public class ComandoVaiTest {
 				.addAdiacenza("salotto", "cucina","est")
 				.addAdiacenza("cucina","salotto", "ovest")
 				.addAdiacenza("cucina", "terrazza","nord")
-				.addAdiacenza("terrazza","cucina", "sud");
+				.addAdiacenza("terrazza","cucina", "sud").getLabirinto();
 		p = new Partita(l, new IOConsole());
 	}
 	
